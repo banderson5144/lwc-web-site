@@ -1,0 +1,22 @@
+{
+    "modules": [
+        {
+            "dir": "src/client/modules"
+        },
+        {
+            "npm": "@salesforce-ux/design-system"
+        },
+        {
+            "npm": "lightning-base-components"
+        },
+        {
+            "npm": "lodash"
+        },
+        {
+            "npm": "@lwce/router"
+        },
+        {
+            "npm": "json2csv"
+        }
+    ]
+}
