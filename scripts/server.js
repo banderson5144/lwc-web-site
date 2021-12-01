@@ -23,7 +23,7 @@ const DIST_DIR = './dist';
 
 app.use(express.static(DIST_DIR));
 
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
