@@ -70,7 +70,7 @@ app.get('/getcounts',function(req,res){
      });
 });
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
     console.log('should get here');
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
