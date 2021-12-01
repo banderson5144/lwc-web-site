@@ -1,15 +1,15 @@
 <template>
 
     <lwce-router>
-        <ul>
-            <li><lwce-link class-name="hi-there" href="/">Home</lwce-link></li>
-            <li><lwce-link href="/cart">Cart</lwce-link></li>
-            <li><lwce-link href="/settings/">Settings</lwce-link></li>
-            <li><lwce-link href="/products/1234">Product</lwce-link></li>
-            <li><lwce-link href="/no-exist">Does not exist</lwce-link></li>
-        </ul>
         <lwce-route path="/" exact>
             <h1>Home</h1>
+            <ul>
+                <li><lwce-link class-name="hi-there" href="/">Home</lwce-link></li>
+                <li><lwce-link href="/cart">Cart</lwce-link></li>
+                <li><lwce-link href="/settings/">Settings</lwce-link></li>
+                <li><lwce-link href="/products/1234">Product</lwce-link></li>
+                <li><lwce-link href="/no-exist">Does not exist</lwce-link></li>
+            </ul>
         </lwce-route>
         <lwce-route path="/cart">
             <h1>Cart</h1>
