@@ -23,10 +23,6 @@ const DIST_DIR = './dist';
 
 app.use(express.static(DIST_DIR));
 
-app.get('/*', (req, res) => {
-    res.sendFile(path.resolve(DIST_DIR, 'index.html'));
-});
-
 // //
 // // Get authorization url and redirect to it.
 // //
@@ -72,7 +68,11 @@ app.get('/getcounts',function(req,res){
         }
         res.send(resp);
      });
-})
+});
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(DIST_DIR, 'index.html'));
+});
 
 app.listen(PORT, () =>
     console.log(`✅  Server started: http://${HOST}:${PORT}`)
