@@ -23,6 +23,11 @@ const DIST_DIR = './dist';
 
 app.use(express.static(DIST_DIR));
 
+app.get('/oauth2/auth', function(req, res) {
+    var isSandbox = req.query.isSandbox === 'true';
+    res.redirect(`https://${isSandbox?'test':'login'}.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${isSandbox?'test':'login'}`);
+});
+
 app.use('*', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
@@ -30,11 +35,6 @@ app.use('*', (req, res) => {
 // //
 // // Get authorization url and redirect to it.
 // //
-app.get('/oauth2/auth', function(req, res) {
-    var isSandbox = req.query.isSandbox === 'true';
-    res.redirect(`https://${isSandbox?'test':'login'}.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${isSandbox?'test':'login'}`);
-});
-
 app.get('/oauth2/callback', function(req, res) {
     
     let oauth2 = new jsforce.OAuth2({
