@@ -44,9 +44,8 @@ app.get('/oauth2/callback', function(req, res) {
     let conn = new jsforce.Connection({ oauth2 : oauth2, version: '50.0' });
     
     let code = req.query.code;
-    conn.authorize(code, function(err, userInfo) {
-        if (err) { return console.error(err); }        
-    }).then(uRes =>{
+    conn.authorize(code)
+    .then(uRes =>{
         res.cookie('mySess',conn.accessToken);
         res.cookie('myServ',conn.instanceUrl);
         res.redirect('/?success=true');
