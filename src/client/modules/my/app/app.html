@@ -1,18 +1,21 @@
 <template>
 
     <div class="slds-page-header myFont">
-        Hello World;
+        Salesforce Utilities
     </div>
 
     <lightning-tabset>
         <lightning-tab label="Item One">
             One Content !
+            <my-reccount></my-reccount>
         </lightning-tab>
         <lightning-tab label="Item Two" title="2nd tab extended title">
             Two Content !
+            <my-soqlcors></my-soqlcors>
         </lightning-tab>
         <lightning-tab label="Item Three">
             Three Content !
+            <my-testcoverage></my-testcoverage>
         </lightning-tab>
     </lightning-tabset>
 
@@ -32,6 +35,15 @@
         </lwce-route>
         <lwce-route path="/settings">
             <my-settings></my-settings>
+        </lwce-route>
+        <lwce-route path="/reccount">
+            <my-reccount></my-reccount>
+        </lwce-route>
+        <lwce-route path="/soqlcors">
+            <my-soqlcors></my-soqlcors>
+        </lwce-route>
+        <lwce-route path="/testcoverage">
+            <my-testcoverage></my-testcoverage>
         </lwce-route>
         <!-- <lwce-route path="/products/:productId">
             <my-product></my-product>

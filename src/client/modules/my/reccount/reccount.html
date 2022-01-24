@@ -1,0 +1,35 @@
+<template>
+
+    <lightning-layout horizontal-align="center">
+        <lightning-layout-item size="8" padding="around-small">
+            <p>This Heroku service will pull down the current record counts based on the&nbsp;
+            <a target="_blank" href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_record_count.htm">Record Count (LIMITS) API</a>
+            </p>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout horizontal-align="center">
+        <lightning-layout-item size="8" padding="around-small">
+            <template if:true={isSet}>
+                <lightning-button variant="brand" label="getCount" title="getCount" onclick={handleClick}></lightning-button>
+                <div style="height: 300px">
+                    <lightning-datatable
+                        key-field="name"
+                        data={tblData}
+                        columns={columns}
+                        hide-checkbox-column="true"
+                    >
+                    </lightning-datatable>
+                </div>
+                <template if:true={canDownload}>
+                    <lightning-button variant="brand" label="Download CSV" title="Download CSV" onclick={downloadCsv}></lightning-button>
+                </template>
+            </template>
+            <template if:false={isSet}>
+                <a class="slds-button slds-button_brand" href="/oauth2/auth?isSandbox=false">Production</a>
+                <a class="slds-button slds-button_outline-brand" href="/oauth2/auth?isSandbox=true">Sandbox</a>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+
+</template>
