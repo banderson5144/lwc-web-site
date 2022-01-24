@@ -88,7 +88,24 @@ app.get('/getcoverage',function(req,res){
         sfRes.orgCov = orgCovRes;
         res.send(JSON.stringify(sfRes));
     });
-})
+});
+
+app.get('/getcounts',function(req,res){
+    var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
+
+    let _request = {
+        url: '/services/data/v51.0/limits/recordCount',
+        method: 'GET'
+     };
+     
+     conn.request(_request, function(err, resp) {
+        if(err)
+        {
+            console.log(err);
+        }
+        res.send(resp);
+     });
+});
 
 app.use('*', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
