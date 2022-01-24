@@ -1,10 +1,10 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import _ from 'lodash';
 import j2c from 'json2csv';
 
 export default class App extends LightningElement {
-    success = false;
-    isSet = false;
+    // @api success = false;
+    // isSet = false;
     canDownload = false;
     columns = [
         { label: 'sObject API Name', fieldName: 'name' },
@@ -13,12 +13,12 @@ export default class App extends LightningElement {
     @track tblData = [{ name: 'foo', count: '1' }];
 
     connectedCallback() {
-        var searchParams = new URLSearchParams(window.location.search);
+        // var searchParams = new URLSearchParams(window.location.search);
 
-        if (searchParams != null && searchParams.has('success')) {
-            this.isSet = true;
-            this.success = searchParams.get('success') === 'true';
-        }
+        // if (searchParams != null && searchParams.has('success')) {
+        //     this.isSet = true;
+        //     this.success = searchParams.get('success') === 'true';
+        // }
     }
 
     handleClick(evt) {

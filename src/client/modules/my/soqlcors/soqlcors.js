@@ -4,14 +4,11 @@ export default class BasicDatatable extends LightningElement {
     data;
     columns;
     soqlStr;
-    isSet = false;
 
     connectedCallback()
     {
         let myServ = this.getCookie('myServ');
         let mySess = this.getCookie('mySess');
-
-        this.isSet = (myServ !== null && mySess !== null);
     }
 
     handleChange(event) {

@@ -3,7 +3,6 @@ import _ from 'lodash';
 import j2c from 'json2csv';
 
 export default class App extends LightningElement {
-    success = false;
     isSet = false;
     canDownload = false;
     columns = [
@@ -15,9 +14,8 @@ export default class App extends LightningElement {
     connectedCallback() {
         var searchParams = new URLSearchParams(window.location.search);
 
-        if (searchParams != null && searchParams.has('success')) {
+        if (searchParams != null && searchParams.has('success') && searchParams.get('success') === 'true') {
             this.isSet = true;
-            this.success = searchParams.get('success') === 'true';
         }
     }
 
