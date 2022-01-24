@@ -46,9 +46,35 @@ app.get('/oauth2/callback', function(req, res) {
     let code = req.query.code;
     conn.authorize(code)
     .then(uRes =>{
-        res.cookie('mySess',conn.accessToken);
-        res.cookie('myServ',conn.instanceUrl);
-        res.redirect('/?success=true');
+        console.log(process.env.REDIRECT_URI);
+        let corsUrl = new URL(process.env.REDIRECT_URI);
+        console.log(corsUrl.origin);
+        let metadata = [{
+            fullName: 'HerokuTest',
+            urlPattern: corsUrl.origin
+        }];
+        conn.metadata.upsert('CorsWhitelistOrigin', metadata)
+        .then(mRes =>{
+            console.log(mRes);
+            console.log(conn.accessToken);
+            console.log(conn.instanceUrl);
+            res.cookie('mySess',conn.accessToken);
+            res.cookie('myServ',conn.instanceUrl);
+            res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
+            res.redirect('/?success=true');
+        })
+        .catch(err =>{
+            console.log(err);
+            console.log(conn.accessToken);
+            console.log(conn.instanceUrl);
+            res.cookie('mySess',conn.accessToken);
+            res.cookie('myServ',conn.instanceUrl);
+            res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
+            res.redirect('/?success=true');
+        });
+        // res.cookie('mySess',conn.accessToken);
+        // res.cookie('myServ',conn.instanceUrl);
+        // res.redirect('/?success=true');
     });
 });
 
