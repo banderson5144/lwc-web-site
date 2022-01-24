@@ -70,6 +70,26 @@ app.get('/getcounts',function(req,res){
      });
 });
 
+app.get('/getcoverage',function(req,res){
+    var sfRes = {};
+
+    var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
+
+    conn.tooling.query('Select ApexTestClass.Name,'+
+                        'ApexClassorTrigger.Name,'+
+                        'NumLinesCovered,'+
+                        'NumLinesUncovered '+
+                        'From ApexCodeCoverage')
+    .then(qryRes => {
+        sfRes.codeCov = qryRes;
+        return conn.tooling.query('Select PercentCovered From ApexOrgWideCoverage');
+    })
+    .then(orgCovRes => {
+        sfRes.orgCov = orgCovRes;
+        res.send(JSON.stringify(sfRes));
+    });
+})
+
 app.use('*', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
