@@ -23,29 +23,9 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.use(function(req, res, next)
-{
-    req.headers['if-none-match'] = 'no-match-for-this';
-    next();    
-});
-
-app.use(function (req, res, next)
-{
-    console.log(req.url);
-    if (req.url === '/')
-    {
-        console.log('Should set CSP');
-        console.log(req.cookies.myServ);
-        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
-    }
-    next();
-});
-
 app.use(express.static(DIST_DIR,{
     etag: false
- }));
-
-app.use(express.static(DIST_DIR));
+}));
 
 // //
 // // Get authorization url and redirect to it.
@@ -161,6 +141,24 @@ app.get('/getcounts',function(req,res)
         }
         res.send(resp);
      });
+});
+
+app.use(function(req, res, next)
+{
+    req.headers['if-none-match'] = 'no-match-for-this';
+    next();    
+});
+
+app.use(function (req, res, next)
+{
+    console.log(req.url);
+    if (req.url === '/')
+    {
+        console.log('Should set CSP');
+        console.log(req.cookies.myServ);
+        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+    }
+    next();
 });
 
 app.use('*', (req, res) =>
