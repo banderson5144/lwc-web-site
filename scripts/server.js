@@ -37,7 +37,7 @@ app.use(function (req, res, next)
     {
         console.log('Should set CSP');
         console.log(req.cookies.myServ);
-        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+        res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
     }
     next();
 });
@@ -88,8 +88,8 @@ app.get('/oauth2/callback', function(req, res)
             console.log(conn.instanceUrl);
             res.cookie('mySess',conn.accessToken);
             res.cookie('myServ',conn.instanceUrl);
-            // res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
-            res.set('Content-Security-Policy', 'connect-src fooey');
+            res.set("Content-Security-Policy", "connect-src 'self' "+conn.instanceUrl);
+            // res.set('Content-Security-Policy', 'connect-src fooey');
             res.redirect('/?success=true');
         })
         .catch(err =>{
@@ -99,7 +99,7 @@ app.get('/oauth2/callback', function(req, res)
             console.log(conn.instanceUrl);
             res.cookie('mySess',conn.accessToken);
             res.cookie('myServ',conn.instanceUrl);
-            res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
+            res.set("Content-Security-Policy", "connect-src 'self' "+conn.instanceUrl);
             res.redirect('/?success=true');
         });
         // res.cookie('mySess',conn.accessToken);
@@ -171,7 +171,7 @@ app.use('*', (req, res) =>
     console.log('Should set CSP');
     console.log(req.cookies.myServ);
     req.headers['if-none-match'] = 'no-match-for-this';
-    res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+    res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
