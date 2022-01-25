@@ -1,13 +1,14 @@
 <template>
 
     <div class="slds-page-header myFont">
-        Salesforce Utilities
+        <p>Salesforce Utilities</p>
         <template if:false={isSet}>
             <p>Please login to use these utilities</p>        
             <a class="slds-button slds-button_brand" href="/oauth2/auth?isSandbox=false">Production</a>
             <a class="slds-button slds-button_outline-brand" href="/oauth2/auth?isSandbox=true">Sandbox</a>
         </template>
         <template if:true={isSet}>
+            <span>Logged in Successfully!</span>
             <lightning-icon icon-name="action:approval" alternative-text="Approved" title="Approved"></lightning-icon>
         </template>
     </div>
