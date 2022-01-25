@@ -33,7 +33,7 @@ app.use(function(req, res, next)
 app.use(function (req, res, next)
 {
     console.log(req.url);
-    if (req.url === '/')
+    if (req.url === '/' || req.url === '/?success=true')
     {
         console.log('Should set CSP');
         console.log(req.cookies.myServ);
@@ -106,24 +106,6 @@ app.get('/oauth2/callback', function(req, res)
         // res.cookie('myServ',conn.instanceUrl);
         // res.redirect('/?success=true');
     });
-});
-
-app.get('/getcounts',function(req,res)
-{
-    var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
-
-    let _request = {
-        url: '/services/data/v51.0/limits/recordCount',
-        method: 'GET'
-     };
-     
-     conn.request(_request, function(err, resp) {
-        if(err)
-        {
-            console.log(err);
-        }
-        res.send(resp);
-     });
 });
 
 app.get('/getcoverage',function(req,res)
