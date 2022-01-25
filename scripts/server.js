@@ -163,6 +163,8 @@ app.get('/getcounts',function(req,res)
 
 app.use('*', (req, res) =>
 {
+    console.log('Should set CSP');
+    console.log(req.cookies.myServ);
     req.headers['if-none-match'] = 'no-match-for-this';
     res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
