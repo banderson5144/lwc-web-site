@@ -26,13 +26,14 @@ app.use(cors());
 
 app.use(function(req, res, next)
 {
+    console.log('if none match middleware begin');
     req.headers['if-none-match'] = 'no-match-for-this';
-    next();    
+    next();
 });
 
 app.use(function (req, res, next)
 {
-    console.log(req.url);
+    console.log('csp middleware begin');
     if (req.url === '/' || req.url === '/?success=true')
     {
         console.log('Should set CSP');
@@ -89,7 +90,6 @@ app.get('/oauth2/callback', function(req, res)
             res.cookie('mySess',conn.accessToken);
             res.cookie('myServ',conn.instanceUrl);
             res.set("Content-Security-Policy", "connect-src 'self' "+conn.instanceUrl);
-            // res.set('Content-Security-Policy', 'connect-src fooey');
             res.redirect('/?success=true');
         })
         .catch(err =>{
@@ -102,9 +102,6 @@ app.get('/oauth2/callback', function(req, res)
             res.set("Content-Security-Policy", "connect-src 'self' "+conn.instanceUrl);
             res.redirect('/?success=true');
         });
-        // res.cookie('mySess',conn.accessToken);
-        // res.cookie('myServ',conn.instanceUrl);
-        // res.redirect('/?success=true');
     });
 });
 
@@ -168,7 +165,7 @@ app.get('/getcounts',function(req,res)
 
 app.use('*', (req, res) =>
 {
-    console.log('Should set CSP');
+    console.log('Wildcard middleware begin');
     console.log(req.cookies.myServ);
     req.headers['if-none-match'] = 'no-match-for-this';
     res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
