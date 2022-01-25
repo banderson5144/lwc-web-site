@@ -18,10 +18,29 @@ const PORT = process.env.PORT || 3001;
 const DIST_DIR = './dist';
 
 const app = express();
+app.disable('etag');
 app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
 app.use(cors());
+
+app.use(function(req, res, next)
+{
+    req.headers['if-none-match'] = 'no-match-for-this';
+    next();    
+});
+
+app.use(function (req, res, next)
+{
+    console.log(req.url);
+    if (req.url === '/')
+    {
+        console.log('Should set CSP');
+        console.log(req.cookies.myServ);
+        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+    }
+    next();
+});
 
 app.use(express.static(DIST_DIR,{
     etag: false
