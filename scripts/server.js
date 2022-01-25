@@ -53,6 +53,7 @@ app.get('/oauth2/callback', function(req, res)
     conn.authorize(code)
     .then(uRes =>
     {
+        console.log('first response');
         console.log(process.env.REDIRECT_URI);
         let corsUrl = new URL(process.env.REDIRECT_URI);
         console.log(corsUrl.origin);
@@ -62,6 +63,7 @@ app.get('/oauth2/callback', function(req, res)
         }];
         conn.metadata.upsert('CorsWhitelistOrigin', metadata)
         .then(mRes =>{
+            console.log('getting here success');
             console.log(mRes);
             console.log(conn.accessToken);
             console.log(conn.instanceUrl);
@@ -72,6 +74,7 @@ app.get('/oauth2/callback', function(req, res)
         })
         .catch(err =>{
             console.log(err);
+            console.log('getting here error');
             console.log(conn.accessToken);
             console.log(conn.instanceUrl);
             res.cookie('mySess',conn.accessToken);
