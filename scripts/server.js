@@ -34,6 +34,7 @@ app.use(function (req, res, next)
     console.log(req.url);
     if (req.url === '/')
     {
+        console.log('Should set CSP');
         console.log(req.cookies.myServ);
         res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
     }
