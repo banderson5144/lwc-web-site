@@ -28,7 +28,9 @@ app.use(function(req, res, next)
 {
     console.log('if none match middleware begin');
     req.headers['if-none-match'] = 'no-match-for-this';
+    console.log('if none match middleware right before next');
     next();
+    console.log('if none match middleware right after next');
 });
 
 app.use(function (req, res, next)
@@ -37,10 +39,12 @@ app.use(function (req, res, next)
     if (req.url === '/' || req.url === '/?success=true')
     {
         console.log('Should set CSP');
-        console.log(req.cookies.myServ);
         res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
+        console.log('after setting CSP');
     }
+    console.log('csp middleware right before next');
     next();
+    console.log('csp middleware right after next');
 });
 
 app.use(express.static(DIST_DIR,{
@@ -145,31 +149,17 @@ app.get('/getcounts',function(req,res)
      });
 });
 
-// app.use(function(req, res, next)
-// {
-//     req.headers['if-none-match'] = 'no-match-for-this';
-//     next();    
-// });
-
-// app.use(function (req, res, next)
-// {
-//     console.log(req.url);
-//     if (req.url === '/')
-//     {
-//         console.log('Should set CSP');
-//         console.log(req.cookies.myServ);
-//         res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
-//     }
-//     next();
-// });
-
 app.use('*', (req, res) =>
 {
     console.log('Wildcard middleware begin');
     console.log(req.cookies.myServ);
+    console.log('Set request headers?');
     req.headers['if-none-match'] = 'no-match-for-this';
+    console.log('Set response headers');
     res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
+    console.log('Send File');
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
+    console.log('Done');
 });
 
 app.listen(PORT, () =>
