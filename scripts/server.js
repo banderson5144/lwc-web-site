@@ -26,25 +26,27 @@ app.use(cors());
 
 app.use(function(req, res, next)
 {
-    console.log('if none match middleware begin');
+    let reqId = req.headers['x-request-id'];
+    console.log('if none match middleware begin-'+reqId);
     req.headers['if-none-match'] = 'no-match-for-this';
-    console.log('if none match middleware right before next');
+    console.log('if none match middleware right before next-'+reqId);
     next();
-    console.log('if none match middleware right after next');
+    console.log('if none match middleware right after next-'+reqId);
 });
 
 app.use(function (req, res, next)
 {
-    console.log('csp middleware begin');
+    let reqId = req.headers['x-request-id'];
+    console.log('csp middleware begin-'+reqId);
     if (req.url === '/' || req.url === '/?success=true')
     {
-        console.log('Should set CSP');
+        console.log('Should set CSP-'+reqId);
         res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
-        console.log('after setting CSP');
+        console.log('after setting CSP-'+reqId);
     }
-    console.log('csp middleware right before next');
+    console.log('csp middleware right before next-'+reqId);
     next();
-    console.log('csp middleware right after next');
+    console.log('csp middleware right after next-'+reqId);
 });
 
 app.use(express.static(DIST_DIR,{
@@ -151,15 +153,16 @@ app.get('/getcounts',function(req,res)
 
 app.use('*', (req, res) =>
 {
-    console.log('Wildcard middleware begin');
+    let reqId = req.headers['x-request-id'];
+    console.log('Wildcard middleware begin-'+reqId);
     console.log(req.cookies.myServ);
-    console.log('Set request headers?');
+    console.log('Set request headers?-'+reqId);
     req.headers['if-none-match'] = 'no-match-for-this';
-    console.log('Set response headers');
+    console.log('Set response headers-'+reqId);
     res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
-    console.log('Send File');
+    console.log('Send File-'+reqId);
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
-    console.log('Done');
+    console.log('Done-'+reqId);
 });
 
 app.listen(PORT, () =>
