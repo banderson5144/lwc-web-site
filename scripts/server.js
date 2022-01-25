@@ -24,16 +24,6 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.use(function(req, res, next)
-{
-    let reqId = req.headers['x-request-id'];
-    console.log('if none match middleware begin-'+reqId);
-    req.headers['if-none-match'] = 'no-match-for-this';
-    console.log('if none match middleware right before next-'+reqId);
-    next();
-    console.log('if none match middleware right after next-'+reqId);
-});
-
 app.use(function (req, res, next)
 {
     let reqId = req.headers['x-request-id'];
