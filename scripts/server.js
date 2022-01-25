@@ -143,26 +143,28 @@ app.get('/getcounts',function(req,res)
      });
 });
 
-app.use(function(req, res, next)
-{
-    req.headers['if-none-match'] = 'no-match-for-this';
-    next();    
-});
+// app.use(function(req, res, next)
+// {
+//     req.headers['if-none-match'] = 'no-match-for-this';
+//     next();    
+// });
 
-app.use(function (req, res, next)
-{
-    console.log(req.url);
-    if (req.url === '/')
-    {
-        console.log('Should set CSP');
-        console.log(req.cookies.myServ);
-        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
-    }
-    next();
-});
+// app.use(function (req, res, next)
+// {
+//     console.log(req.url);
+//     if (req.url === '/')
+//     {
+//         console.log('Should set CSP');
+//         console.log(req.cookies.myServ);
+//         res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+//     }
+//     next();
+// });
 
 app.use('*', (req, res) =>
 {
+    req.headers['if-none-match'] = 'no-match-for-this';
+    res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
