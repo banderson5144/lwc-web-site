@@ -5,6 +5,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const path = require('path');
 const jsforce = require('jsforce');
 
@@ -12,28 +13,52 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectUri = process.env.REDIRECT_URI;
 
+const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || 3001;
+const DIST_DIR = './dist';
+
 const app = express();
 app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
+app.use(cors());
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3001;
-const DIST_DIR = './dist';
+app.use(function(req, res, next)
+{
+    req.headers['if-none-match'] = 'no-match-for-this';
+    next();    
+});
+
+app.use(function (req, res, next)
+{
+    console.log(req.url);
+    if (req.url === '/')
+    {
+        console.log(req.cookies.myServ);
+        res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
+    }
+    next();
+});
+
+app.use(express.static(DIST_DIR,{
+    etag: false
+ }));
 
 app.use(express.static(DIST_DIR));
 
 // //
 // // Get authorization url and redirect to it.
 // //
-app.get('/oauth2/auth', function(req, res) {
+app.get('/oauth2/auth', function(req, res)
+{
     var isSandbox = req.query.isSandbox === 'true';
     res.redirect(`https://${isSandbox?'test':'login'}.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${isSandbox?'test':'login'}`);
 });
 
-app.get('/oauth2/callback', function(req, res) {
-    
-    let oauth2 = new jsforce.OAuth2({
+app.get('/oauth2/callback', function(req, res)
+{    
+    let oauth2 = new jsforce.OAuth2(
+    {
         // you can change loginUrl to connect to sandbox or prerelease env.
         loginUrl : `https://${req.query.state}.salesforce.com`,
         clientId : clientId,
@@ -45,7 +70,8 @@ app.get('/oauth2/callback', function(req, res) {
     
     let code = req.query.code;
     conn.authorize(code)
-    .then(uRes =>{
+    .then(uRes =>
+    {
         console.log(process.env.REDIRECT_URI);
         let corsUrl = new URL(process.env.REDIRECT_URI);
         console.log(corsUrl.origin);
@@ -78,7 +104,8 @@ app.get('/oauth2/callback', function(req, res) {
     });
 });
 
-app.get('/getcounts',function(req,res){
+app.get('/getcounts',function(req,res)
+{
     var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
 
     let _request = {
@@ -95,7 +122,8 @@ app.get('/getcounts',function(req,res){
      });
 });
 
-app.get('/getcoverage',function(req,res){
+app.get('/getcoverage',function(req,res)
+{
     var sfRes = {};
 
     var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
@@ -115,7 +143,8 @@ app.get('/getcoverage',function(req,res){
     });
 });
 
-app.get('/getcounts',function(req,res){
+app.get('/getcounts',function(req,res)
+{
     var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
 
     let _request = {
@@ -123,7 +152,8 @@ app.get('/getcounts',function(req,res){
         method: 'GET'
      };
      
-     conn.request(_request, function(err, resp) {
+     conn.request(_request, function(err, resp)
+     {
         if(err)
         {
             console.log(err);
@@ -132,7 +162,8 @@ app.get('/getcounts',function(req,res){
      });
 });
 
-app.use('*', (req, res) => {
+app.use('*', (req, res) =>
+{
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
