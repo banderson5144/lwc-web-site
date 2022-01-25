@@ -24,20 +24,20 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.use(function (req, res, next)
-{
-    let reqId = req.headers['x-request-id'];
-    console.log('csp middleware begin-'+reqId);
-    if (req.url === '/' || req.url === '/?success=true')
-    {
-        console.log('Should set CSP-'+reqId);
-        res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
-        console.log('after setting CSP-'+reqId);
-    }
-    console.log('csp middleware right before next-'+reqId);
-    next();
-    console.log('csp middleware right after next-'+reqId);
-});
+// app.use(function (req, res, next)
+// {
+//     let reqId = req.headers['x-request-id'];
+//     console.log('csp middleware begin-'+reqId);
+//     if (req.url === '/' || req.url === '/?success=true')
+//     {
+//         console.log('Should set CSP-'+reqId);
+//         res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
+//         console.log('after setting CSP-'+reqId);
+//     }
+//     console.log('csp middleware right before next-'+reqId);
+//     next();
+//     console.log('csp middleware right after next-'+reqId);
+// });
 
 app.use(express.static(DIST_DIR,{
     etag: false
