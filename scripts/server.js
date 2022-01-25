@@ -69,7 +69,8 @@ app.get('/oauth2/callback', function(req, res)
             console.log(conn.instanceUrl);
             res.cookie('mySess',conn.accessToken);
             res.cookie('myServ',conn.instanceUrl);
-            res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
+            // res.set('Content-Security-Policy', 'connect-src '+conn.instanceUrl);
+            res.set('Content-Security-Policy', 'connect-src fooey');
             res.redirect('/?success=true');
         })
         .catch(err =>{
