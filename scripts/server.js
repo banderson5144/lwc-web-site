@@ -141,7 +141,7 @@ app.get('/getcounts',function(req,res)
      });
 });
 
-app.use('*', (req, res) =>
+app.use('/*', (req, res) =>
 {
     let reqId = req.headers['x-request-id'];
     console.log('Wildcard middleware begin-'+reqId);
