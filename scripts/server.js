@@ -5,7 +5,6 @@ const compression = require('compression');
 const helmet = require('helmet');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const path = require('path');
 const jsforce = require('jsforce');
 
@@ -22,7 +21,6 @@ app.disable('etag');
 app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
-app.use(cors());
 app.use(function(req, res, next) {
     req.headers['if-none-match'] = 'no-match-for-this';
     next();    
