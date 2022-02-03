@@ -24,9 +24,15 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.use(express.static(DIST_DIR,{
-    etag: false
-}));
+app.use(express.static(DIST_DIR));
+
+app.use((req, res) =>
+{
+    console.log('Am I getting here');
+    console.log(req.cookies.myServ);
+    res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
+    res.sendFile(path.resolve(DIST_DIR, 'index.html'));
+});
 
 // //
 // // Get authorization url and redirect to it.
@@ -124,14 +130,6 @@ app.get('/getcounts',function(req,res)
         }
         res.send(resp);
      });
-});
-
-app.use((req, res) =>
-{
-    console.log('Am I getting here');
-    console.log(req.cookies.myServ);
-    res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
-    res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
 app.listen(PORT, () =>
