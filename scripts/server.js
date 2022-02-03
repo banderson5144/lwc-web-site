@@ -141,18 +141,11 @@ app.get('/getcounts',function(req,res)
      });
 });
 
-app.use('/*', (req, res) =>
+app.use((req, res) =>
 {
-    let reqId = req.headers['x-request-id'];
-    console.log('Wildcard middleware begin-'+reqId);
     console.log(req.cookies.myServ);
-    console.log('Set request headers?-'+reqId);
-    req.headers['if-none-match'] = 'no-match-for-this';
-    console.log('Set response headers-'+reqId);
     res.set("Content-Security-Policy", "connect-src 'self' "+req.cookies.myServ);
-    console.log('Send File-'+reqId);
     res.sendFile(path.resolve(DIST_DIR, 'index.html'));
-    console.log('Done-'+reqId);
 });
 
 app.listen(PORT, () =>
