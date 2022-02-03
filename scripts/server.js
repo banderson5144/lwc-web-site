@@ -25,6 +25,7 @@ app.use(compression());
 app.use(cors());
 app.use(function (req, res, next) {
     console.log('Time:', Date.now());
+    res.set('Content-Security-Policy', 'connect-src '+req.cookies.myServ);
     next();
 });
 
