@@ -5,7 +5,6 @@ const compression = require('compression');
 const helmet = require('helmet');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 const jsforce = require('jsforce');
 
 const clientId = process.env.CLIENT_ID;
@@ -29,9 +28,7 @@ app.use(helmet({
 }));
 app.use(compression());
 
-app.use(express.static(DIST_DIR,{
-    etag: false
-  }));
+app.use(express.static(DIST_DIR));
 
 // //
 // // Get authorization url and redirect to it.
