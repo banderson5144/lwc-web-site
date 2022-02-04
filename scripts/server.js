@@ -21,6 +21,7 @@ app.disable('etag');
 app.use(cookieParser());
 app.use(helmet({
     contentSecurityPolicy:{
+        useDefaults:true,
         directives:{
             connectSrc:["'self'","https://*.my.salesforce.com"]
         }
