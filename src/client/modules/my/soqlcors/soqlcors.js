@@ -4,13 +4,13 @@ export default class BasicDatatable extends LightningElement {
     data;
     columns;
     soqlStr;
-    @api myServ;
-    @api mySess;
+    @api myserv;
+    @api mysess;
 
     // connectedCallback()
     // {
-    //     let myServ = this.getCookie('myServ');
-    //     let mySess = this.getCookie('mySess');
+    //     let myserv = this.getCookie('myserv');
+    //     let mysess = this.getCookie('mysess');
     // }
 
     handleChange(event) {
@@ -28,10 +28,10 @@ export default class BasicDatatable extends LightningElement {
 
     callQuery() {
         const myHeaders = new Headers();
-        myHeaders.append('Authorization', 'Bearer ' + this.mySess);
+        myHeaders.append('Authorization', 'Bearer ' + this.mysess);
 
         const sfServer =
-            decodeURIComponent(this.myServ) +
+            decodeURIComponent(this.myserv) +
             '/services/data/v52.0/query?q=' +
             encodeURIComponent(this.soqlStr);
 
