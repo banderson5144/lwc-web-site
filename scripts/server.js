@@ -72,7 +72,7 @@ app.get('/oauth2/callback', function(req, res)
             console.log(conn.instanceUrl);
             res.cookie('mySess',conn.accessToken, {maxAge:900000});
             res.cookie('myServ',conn.instanceUrl, {maxAge:900000});
-            res.end();
+            res.redirect('/?success=true');
         })
         .catch(err =>{
             console.log(err);
