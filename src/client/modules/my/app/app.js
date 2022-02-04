@@ -12,9 +12,10 @@ export default class App extends LightningElement {
     @track tblData = [{ name: 'foo', count: '1' }];
 
     connectedCallback() {
-        var searchParams = new URLSearchParams(window.location.search);
+        let sessId = this.getCookie('mySess');
+        // var searchParams = new URLSearchParams(window.location.search);
 
-        if (searchParams != null && searchParams.has('success') && searchParams.get('success') === 'true') {
+        if (sessId != null && sessId != '') {
             this.isSet = true;
         }
     }
@@ -43,5 +44,15 @@ export default class App extends LightningElement {
         hiddenElement.target = '_blank';
         hiddenElement.download = 'sf_record_count.csv';
         hiddenElement.click();
+    }
+
+    getCookie(name)
+    {
+        var cookieString = '; ' + document.cookie;
+        var parts = cookieString.split('; ' + name + '=');
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+        return null;
     }
 }

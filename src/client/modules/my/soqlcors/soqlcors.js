@@ -15,14 +15,14 @@ export default class BasicDatatable extends LightningElement {
         this.soqlStr = event.target.value;
     }
 
-    getCookie(name) {
-        var cookieString = '; ' + document.cookie;
-        var parts = cookieString.split('; ' + name + '=');
-        if (parts.length === 2) {
-            return parts.pop().split(';').shift();
-        }
-        return null;
-    }
+    // getCookie(name) {
+    //     var cookieString = '; ' + document.cookie;
+    //     var parts = cookieString.split('; ' + name + '=');
+    //     if (parts.length === 2) {
+    //         return parts.pop().split(';').shift();
+    //     }
+    //     return null;
+    // }
 
     callQuery() {
         const myHeaders = new Headers();
