@@ -5,6 +5,8 @@ import j2c from 'json2csv';
 export default class App extends LightningElement {
     isSet = false;
     canDownload = false;
+    mySess;
+    myServ;
     columns = [
         { label: 'sObject API Name', fieldName: 'name' },
         { label: 'Count', fieldName: 'count' }
@@ -12,10 +14,11 @@ export default class App extends LightningElement {
     @track tblData = [{ name: 'foo', count: '1' }];
 
     connectedCallback() {
-        let sessId = this.getCookie('mySess');
+        this.mySess = this.getCookie('mySess');
+        this.myServ = this.getCookie('myServ');
         // var searchParams = new URLSearchParams(window.location.search);
 
-        if (sessId != null && sessId != '') {
+        if (this.mySess != null && this.mySess != '') {
             this.isSet = true;
         }
     }

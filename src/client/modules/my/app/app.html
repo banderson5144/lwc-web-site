@@ -27,7 +27,9 @@
                 Please login
             </template>
             <template if:true={isSet}>
-                <my-soqlcors></my-soqlcors>
+                <my-soqlcors
+                    mySess={mySess}
+                    myServ={myServ}></my-soqlcors>
             </template>
         </lightning-tab>
         <lightning-tab label="Code Coverage">

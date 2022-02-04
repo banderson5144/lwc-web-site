@@ -1,15 +1,17 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class BasicDatatable extends LightningElement {
     data;
     columns;
     soqlStr;
+    @api myServ;
+    @api mySess;
 
-    connectedCallback()
-    {
-        let myServ = this.getCookie('myServ');
-        let mySess = this.getCookie('mySess');
-    }
+    // connectedCallback()
+    // {
+    //     let myServ = this.getCookie('myServ');
+    //     let mySess = this.getCookie('mySess');
+    // }
 
     handleChange(event) {
         this.soqlStr = event.target.value;
@@ -26,10 +28,10 @@ export default class BasicDatatable extends LightningElement {
 
     callQuery() {
         const myHeaders = new Headers();
-        myHeaders.append('Authorization', 'Bearer ' + this.getCookie('mySess'));
+        myHeaders.append('Authorization', 'Bearer ' + this.mySess);
 
         const sfServer =
-            decodeURIComponent(this.getCookie('myServ')) +
+            decodeURIComponent(this.myServ) +
             '/services/data/v52.0/query?q=' +
             encodeURIComponent(this.soqlStr);
 
