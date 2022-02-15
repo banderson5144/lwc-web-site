@@ -126,6 +126,13 @@ app.get('/getcounts',function(req,res)
      });
 });
 
+app.get('/logout',function(req,res)
+{
+    res.clearCookie('mySess');
+    res.clearCookie('myServ');
+    res.redirect('/');
+})
+
 app.listen(PORT, () =>
     console.log(`✅  Server started: http://${HOST}:${PORT}`)
 );
