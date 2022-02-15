@@ -126,8 +126,12 @@ app.get('/getcounts',function(req,res)
      });
 });
 
-app.get('/logout',function(req,res)
+app.get('/logout',async function(req,res)
 {
+    var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
+    
+    await conn.logout();
+    
     res.clearCookie('mySess');
     res.clearCookie('myServ');
     res.redirect('/');
