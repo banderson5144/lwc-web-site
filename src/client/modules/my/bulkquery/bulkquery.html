@@ -26,9 +26,9 @@
                     title="Run Query"
                     onclick={callQuery}
                 ></lightning-button>
+            <template if:true={dynhref}>
+                <a href={dynhref} target="_blank">Bulk Data Page</a>
+            </template>
         </lightning-layout-item>
-        <template if:true={dynhref}>
-            <a href={dynhref}>Bulk Data Page</a>
-        </template>
     </lightning-layout>
 </template>
