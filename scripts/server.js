@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const jsforce = require('jsforce');
+const https = require('https');
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -126,6 +127,55 @@ app.get('/getcounts',function(req,res)
      });
 });
 
+app.get('/bulkquery',function(req,res)
+{
+    console.log(req.query.sfqry);
+
+    const url = new URL(req.cookies.myServ);
+    console.log(url.hostname);
+
+    const data = JSON.stringify({
+        "operation": "query",
+        "query": req.query.sfqry
+    });
+
+    const options = {
+        hostname: url.hostname,
+        port: 443,
+        path: '/services/data/v54.0/jobs/query',
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer '+req.cookies.mySess,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const httpsReq = https.request(options, httpRes => {
+        let body = "";
+
+        httpRes.on("data", (chunk) => {
+            body += chunk;
+        });
+
+        httpRes.on("end", () => {
+            try {
+                let json = JSON.parse(body);
+                console.log(json);
+                res.send(json);
+            } catch (error) {
+                console.error(error.message);
+            }
+        });
+    });
+
+    httpsReq.on('error', error => {
+        console.error(error)
+    });
+
+    httpsReq.write(data);
+    httpsReq.end();
+});
+
 app.get('/logout',async function(req,res)
 {
     var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
@@ -135,7 +185,7 @@ app.get('/logout',async function(req,res)
     res.clearCookie('mySess');
     res.clearCookie('myServ');
     res.redirect('/');
-})
+});
 
 app.listen(PORT, () =>
     console.log(`✅  Server started: http://${HOST}:${PORT}`)

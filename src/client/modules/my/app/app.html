@@ -34,6 +34,14 @@
                     myserv={myServ}></my-soqlcors>
             </template>
         </lightning-tab>
+        <lightning-tab label="Bulk API 2.0">
+            <template if:false={isSet}>
+                Please login
+            </template>
+            <template if:true={isSet}>
+                <my-bulkquery></my-bulkquery>
+            </template>
+        </lightning-tab>
         <lightning-tab label="Code Coverage">
             <template if:false={isSet}>
                 Please login

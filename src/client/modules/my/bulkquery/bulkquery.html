@@ -1,0 +1,34 @@
+<template>
+    <!-- <lightning-layout horizontal-align="center">
+        <lightning-layout-item size="8" padding="around-small">
+            <div style="height: 300px">
+                <lightning-datatable
+                    key-field="id"
+                    data={data}
+                    columns={columns}
+                >
+                </lightning-datatable>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout> -->
+
+    <lightning-layout horizontal-align="center">
+        <lightning-layout-item size="8" padding="around-small">
+            <lightning-textarea
+                name="soqlStr"
+                label="SOQL String"
+                value={soqlStr}
+                onchange={handleChange}
+            ></lightning-textarea>
+            <lightning-button
+                    variant="brand"
+                    label="Run Query"
+                    title="Run Query"
+                    onclick={callQuery}
+                ></lightning-button>
+        </lightning-layout-item>
+        <template if:true={dynhref}>
+            <a href={dynhref}>Bulk Data Page</a>
+        </template>
+    </lightning-layout>
+</template>
