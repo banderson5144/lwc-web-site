@@ -127,6 +127,17 @@ app.get('/getcounts',function(req,res)
      });
 });
 
+app.get('/globaldescribe',function(req,res)
+{
+    var conn = new jsforce.Connection({sessionId:req.cookies.mySess,serverUrl:req.cookies.myServ});
+
+    //Read API Documentation to return results back
+    //https://jsforce.github.io/document/#describe-global
+    //conn.describeGlobal()
+
+    //res.send(formatted sObjOptions data);
+});
+
 app.get('/bulkquery',function(req,res)
 {
     console.log(req.query.sfqry);

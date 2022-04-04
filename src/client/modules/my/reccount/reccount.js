@@ -23,12 +23,12 @@ export default class App extends LightningElement {
 
     handleClick(evt) {
         fetch('/getcounts')
-            .then((response) => response.json())
-            .then((data) => {
-                this.tblData = _.orderBy(data.sObjects, 'count', 'desc');
-                this.canDownload = true;
-                //console.log(this.tblData);
-            });
+        .then((response) => response.json())
+        .then((data) => {
+            this.tblData = _.orderBy(data.sObjects, 'count', 'desc');
+            this.canDownload = true;
+            //console.log(this.tblData);
+        });
     }
 
     downloadCsv(evt) {

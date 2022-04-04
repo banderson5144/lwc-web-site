@@ -13,7 +13,18 @@
     </lightning-layout> -->
 
     <lightning-layout horizontal-align="center">
-        <lightning-layout-item size="8" padding="around-small">
+        <lightning-layout-item size="4" padding="around-small">
+            <lightning-combobox
+                name="sobject"
+                label="Object"
+                value={value}
+                options={sObjOptions}
+                onchange={handleSObjChange} ></lightning-combobox>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout horizontal-align="center">
+        <lightning-layout-item size="4" padding="around-small">
             <lightning-textarea
                 name="soqlStr"
                 label="SOQL String"
