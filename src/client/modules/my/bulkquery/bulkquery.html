@@ -19,13 +19,13 @@
                 label="SOQL String"
                 value={soqlStr}
                 onchange={handleChange}
+                placeholder="Select Id From Account"
             ></lightning-textarea>
             <lightning-button
                     variant="brand"
                     label="Run Query"
                     title="Run Query"
                     onclick={callQuery}
-                    placeholder="Select Id From Account"
                 ></lightning-button>
             <template if:true={dynhref}>
                 <a href={dynhref} target="_blank">Bulk Data Page</a>
